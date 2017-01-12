@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+void assign_initial(int cells[][11]);                                           
+void print_blanks(void);                                                        
+void open_cell(int *op_x, int *op_y);                                           
+void put_mine(int cells[][11], int op_x, int op_y);                            
+void calculate_num_of_cells(int cells[][11]);                                   
+void assign_inf_after_open(int cells[][11], int op_x, int op_y);               
+void open_surrounding(int cells[][11], int p_x, int op_y);                       
+void check_no_mine(int cells[][11], int op_x, int op_y);                         
+int  check_over(int cells[][11], int op_x, int op_y);                           
+void print_cells(int cells[][11], int op_x, int op_y, int over);                
+void print_condition_playing(int cells[][11]);                                  
+void print_condition_over(int cells[][11], int over);                           
+                                                      
+
+int main(void) {
+	int  cells[11][11],
+		open_x, open_y,
+		over;
+	char again;
+
+	do {
+		system("cls");
+		assign_initial(cells);                                                   
+		print_blanks();                                                           
+		open_cell(&open_x, &open_y);                                             
+		put_mine(cells, open_x, open_y);                                         
+		calculate_num_of_cells(cells);                                          
+		assign_inf_after_open(cells, open_x, open_y);                            
+		check_no_mine(cells, open_x, open_y);                                    
+		over = check_over(cells, open_x, open_y);                                
+		print_cells(cells, open_x, open_y, over);                             
+		while (over == 0) {
+			open_cell(&open_x, &open_y);
+			assign_inf_after_open(cells, open_x, open_y);                      
+			check_no_mine(cells, open_x, open_y);                              
+			over = check_over(cells, open_x, open_y);                        
+			print_cells(cells, open_x, open_y, over);                          
+	    }
+                                                   
+	} while (again == 'Y' || again == 'y');
+
+	return(0);
+}
